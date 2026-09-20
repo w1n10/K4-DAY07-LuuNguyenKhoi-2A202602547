@@ -2,11 +2,11 @@ from __future__ import annotations
 
 import os
 import sys
-from pathlib import Path
 
 from dotenv import load_dotenv
 
 from src.agent import KnowledgeBaseAgent
+from src.chunking import RecursiveChunker
 from src.embeddings import (
     EMBEDDING_PROVIDER_ENV,
     GEMINI_EMBEDDING_MODEL,
@@ -17,45 +17,22 @@ from src.embeddings import (
     OpenAIEmbedder,
     _mock_embed,
 )
+from src.ingest import DEFAULT_CHUNK_SIZE, load_documents
 from src.models import Document
 from src.store import EmbeddingStore
 
 SAMPLE_FILES = [
-    "data/python_intro.txt",
-    "data/vector_store_notes.md",
-    "data/rag_system_design.md",
-    "data/customer_support_playbook.txt",
-    "data/chunking_experiment_report.md",
-    "data/vi_retrieval_notes.md",
+    "data/ecommerce",
 ]
 
 
 def load_documents_from_files(file_paths: list[str]) -> list[Document]:
-    """Load documents from file paths for the manual demo."""
-    allowed_extensions = {".md", ".txt"}
-    documents: list[Document] = []
-
-    for raw_path in file_paths:
-        path = Path(raw_path)
-
-        if path.suffix.lower() not in allowed_extensions:
-            print(f"Skipping unsupported file type: {path} (allowed: .md, .txt)")
-            continue
-
-        if not path.exists() or not path.is_file():
-            print(f"Skipping missing file: {path}")
-            continue
-
-        content = path.read_text(encoding="utf-8")
-        documents.append(
-            Document(
-                id=path.stem,
-                content=content,
-                metadata={"source": str(path), "extension": path.suffix.lower()},
-            )
-        )
-
-    return documents
+    """Load documents for the manual demo: front matter -> metadata, body -> chunks."""
+    return load_documents(
+        file_paths,
+        chunker=RecursiveChunker(chunk_size=DEFAULT_CHUNK_SIZE),
+        verbose=True,
+    )
 
 
 def demo_llm(prompt: str) -> str:
@@ -81,9 +58,13 @@ def run_manual_demo(question: str | None = None, sample_files: list[str] | None 
         print("  python3 main.py")
         return 1
 
-    print(f"\nLoaded {len(docs)} documents")
+    chunks_per_doc: dict[str, int] = {}
     for doc in docs:
-        print(f"  - {doc.id}: {doc.metadata['source']}")
+        chunks_per_doc[doc.id] = chunks_per_doc.get(doc.id, 0) + 1
+
+    print(f"\nLoaded {len(chunks_per_doc)} documents -> {len(docs)} chunks")
+    for doc_id, count in chunks_per_doc.items():
+        print(f"  - {doc_id}: {count} chunks")
 
     load_dotenv(override=False)
     provider = os.getenv(EMBEDDING_PROVIDER_ENV, "mock").strip().lower()

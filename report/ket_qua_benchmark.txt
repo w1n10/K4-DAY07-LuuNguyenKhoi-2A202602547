@@ -1,0 +1,61 @@
+﻿================================================================================
+      LAB 7: BENCHMARK RETRIEVAL TRÊN TẬP DỮ LIỆU CHÍNH SÁCH SHOPEE
+================================================================================
+Số lượng tài liệu nạp vào: 5
+  - buyer-warranty-policy.md
+  - return-refund-policy.md
+  - seller-fraud-penalty-policy.md
+  - seller-listing-regulations.md
+  - shipping-policy.md
+
+Embedding Backend sử dụng: mock embeddings fallback
+Tổng số chunk được tạo và lưu trữ: 208
+  * buyer-warranty-policy: 9 chunks
+  * return-refund-policy: 60 chunks
+  * seller-fraud-penalty-policy: 19 chunks
+  * seller-listing-regulations: 53 chunks
+  * shipping-policy: 67 chunks
+
+================================================================================
+                 CHẠY 5 CÂU HỎI BENCHMARK CỦA NHÓM
+================================================================================
+
+--- Câu hỏi 1: Người Mua có bao nhiêu ngày gửi yêu cầu Trả hàng/Hoàn tiền sau khi giao thành công? Thực phẩm tươi sống/đông lạnh khác không? ---
+Gold Answer: 15 ngày; riêng thực phẩm tươi sống/đông lạnh là 24 giờ (Nguồn: return-refund-policy mục 3.2)
+Top-1 Chunk ID: seller-fraud-penalty-policy#7#76 (File: seller-fraud-penalty-policy) | Score: 0.3747
+Nội dung Top-1: Hành Vi Gian Lận Trên Sàn Shopee được xem là hành vi vi phạm nghiêm trọng đối với Điều khoản dịch vụ, Quy chế hoạt động và các Quy định, Chí...
+Đánh giá độ liên quan: Top-1 khớp? KHÔNG | Có trong Top-3? CÓ
+Agent Trả Lời: [RAG Agent Trả Lời]: Dựa theo quy định tại ngữ cảnh [1], nội dung chính xác là: ...
+
+--- Câu hỏi 2: Sản phẩm mua tại Shopee được bảo hành miễn phí khi hội đủ điều kiện nào? ---
+Gold Answer: Lỗi kỹ thuật do NSX; còn hạn bảo hành; có hóa đơn điện tử hoặc mã đơn hàng; phiếu/tem bảo hành (điện gia dụng) còn nguyên vẹn (Nguồn: buyer-warranty-policy mục 1)
+Top-1 Chunk ID: shipping-policy#2#143 (File: shipping-policy) | Score: 0.3454
+Nội dung Top-1: 2. Phạm vi áp dụng     a.    Chính Sách Vận Chuyển này quy định về các loại hàng hóa không hỗ trợ vận chuyển, vận chuyển có điều kiện, quy đ...
+Đánh giá độ liên quan: Top-1 khớp? KHÔNG | Có trong Top-3? KHÔNG
+Agent Trả Lời: [RAG Agent Trả Lời]: Dựa theo quy định tại ngữ cảnh [1], nội dung chính xác là: ...
+
+--- Câu hỏi 3: Người Bán phải đảm bảo hàng còn tối thiểu bao nhiêu hạn sử dụng khi giao? Thực phẩm dưới 30 ngày thì sao? ---
+Gold Answer: Ít nhất 30% hạn sử dụng và còn ít nhất 30 ngày; thực phẩm dưới 30 ngày phải ghi rõ hạn sử dụng và tự sắp xếp vận chuyển (Nguồn: seller-listing-regulations mục D.2.a–b)
+Top-1 Chunk ID: buyer-warranty-policy#6#6 (File: buyer-warranty-policy) | Score: 0.2676
+Nội dung Top-1: Thông tin của trung tâm bảo hành sẽ được ghi trong phiếu bảo hành kèm theo sản phẩm hoặc trên phần mô tả thông tin chi tiết của sản phẩm. Qu...
+Đánh giá độ liên quan: Top-1 khớp? KHÔNG | Có trong Top-3? KHÔNG
+Agent Trả Lời: [RAG Agent Trả Lời]: Dựa theo quy định tại ngữ cảnh [1], nội dung chính xác là: ...
+
+--- Câu hỏi 4: Thời hạn khiếu nại vận chuyển với đơn giao không thành công (hàng thất lạc / hư hại khi hoàn trả)? ---
+Gold Answer: Thất lạc: 07 ngày; hư hại/không nguyên vẹn: 03 ngày sau khi chuyển hoàn thành công (Nguồn: shipping-policy mục D.1.b.i)
+Top-1 Chunk ID: seller-listing-regulations#18#106 (File: seller-listing-regulations) | Score: 0.3485
+Nội dung Top-1: + Xác Nhận Công Bố Phù Hợp Quy Định An Toàn Thực Phẩm;  + Chứng nhận đại lý/Hợp đồng mua bán/Hóa đơn mua hàng (nếu sản phẩm nhập khẩu);  + G...
+Đánh giá độ liên quan: Top-1 khớp? KHÔNG | Có trong Top-3? CÓ
+Agent Trả Lời: [RAG Agent Trả Lời]: Dựa theo quy định tại ngữ cảnh [1], nội dung chính xác là: ...
+
+--- Câu hỏi 5: Mức bồi thường gian lận tối đa/đơn và ngày áp dụng? ---
+Gold Answer: Lên đến 10.000.000 VND mỗi đơn vi phạm, cộng dồn, cấn trừ Số dư; áp dụng từ 28/12/2023 (Nguồn: seller-fraud-penalty-policy mục 3.b)
+Metadata filter áp dụng: {'audience': 'seller'}
+Top-1 Chunk ID: seller-fraud-penalty-policy#7#76 (File: seller-fraud-penalty-policy) | Score: 0.3405
+Nội dung Top-1: Hành Vi Gian Lận Trên Sàn Shopee được xem là hành vi vi phạm nghiêm trọng đối với Điều khoản dịch vụ, Quy chế hoạt động và các Quy định, Chí...
+Đánh giá độ liên quan: Top-1 khớp? CÓ | Có trong Top-3? CÓ
+Agent Trả Lời: [RAG Agent Trả Lời]: Dựa theo quy định tại ngữ cảnh [1], nội dung chính xác là: ...
+
+================================================================================
+TỔNG KẾT BENCHMARK: 3/5 câu hỏi có chunk liên quan trong Top-3
+================================================================================

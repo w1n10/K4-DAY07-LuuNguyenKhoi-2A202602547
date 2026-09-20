@@ -3,6 +3,7 @@ from .chunking import (
     ChunkingStrategyComparator,
     FixedSizeChunker,
     RecursiveChunker,
+    SemanticChunker,
     SentenceChunker,
     compute_similarity,
 )
@@ -17,14 +18,19 @@ from .embeddings import (
     OpenAIEmbedder,
     _mock_embed,
 )
+from .ingest import chunk_document, load_documents, parse_front_matter
 from .models import Document
 from .store import EmbeddingStore
 
 __all__ = [
     "Document",
+    "load_documents",
+    "chunk_document",
+    "parse_front_matter",
     "FixedSizeChunker",
     "SentenceChunker",
     "RecursiveChunker",
+    "SemanticChunker",
     "ChunkingStrategyComparator",
     "compute_similarity",
     "EmbeddingStore",
